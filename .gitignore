@@ -1,0 +1,5 @@
+secret.key
+.env
+__pycache__/
+*.pyc
+paypredict.db

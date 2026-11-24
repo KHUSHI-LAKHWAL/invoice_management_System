@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | PayPredict AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="stylesheet" href="/static/auth.css">
+</head>
+<body class="auth-body">
+  <div class="bg-art" aria-hidden="true">
+    <div class="orb o1"></div>
+    <div class="orb o2"></div>
+    <div class="orb o3"></div>
+    <div class="grid-fade"></div>
+
+    <svg class="bg-chip" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/></svg>
+
+    <div class="bg-brand">
+      <span class="bg-mark"></span>
+      <span>PayPredict AI</span>
+    </div>
+    <div class="bg-tagline">Invoice Intelligence &nbsp;•&nbsp; Payment Risk Prediction</div>
+  </div>
+  <div class="auth-card">
+  <div class="auth-brand">
+  <div class="brand-logo">
+    <svg class="icon" viewBox="0 0 24 24"><rect x="4" y="4"width="16" height="16" rx="2"/> <rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M20  9h3M20 14h3M1 9h3M1 14h3"/> </svg>
+</div>
+      <h1>PayPredict AI</h1>
+      <p>Invoice payment risk prediction</p>
+    </div>
+
+    <div class="tabs">
+      <button type="button" class="tab active" id="tab-login">Login</button>
+      <button type="button" class="tab" id="tab-register">Create account</button>
+    </div>
+
+    <div id="auth-error" class="auth-error hidden"></div>
+
+    <form id="login-form" class="auth-form" autocomplete="on">
+      <div class="field"><label for="l-email">Email</label>
+        <input type="email" id="l-email" placeholder="you@company.com" required></div>
+      <div class="field"><label for="l-password">Password</label>
+        <div class="pw-wrap">
+          <input type="password" id="l-password" placeholder="Your password" required>
+          <button type="button" class="pw-toggle" data-target="l-password">Show</button>
+        </div></div>
+      <button type="submit" class="btn primary" id="login-btn">Login</button>
+    </form>
+
+
+    <form id="register-form" class="auth-form hidden" autocomplete="on">
+      <div class="field"><label for="r-name">Full name</label>
+        <input type="text" id="r-name" placeholder="Your name" required></div>
+      <div class="field"><label for="r-email">Email</label>
+        <input type="email" id="r-email" placeholder="you@company.com" required></div>
+      <div class="field"><label for="r-password">Password</label>
+        <div class="pw-wrap">
+          <input type="password" id="r-password" placeholder="Min 8 chars, Aa + number" required>
+          <button type="button" class="pw-toggle" data-target="r-password">Show</button>
+        </div>
+        <div class="strength"><div id="strength-bar"></div></div>
+        <small id="strength-text" class="muted">Use 8+ characters with upper, lower and a number.</small>
+      </div>
+      <div class="field"><label for="r-confirm">Confirm password</label>
+        <input type="password" id="r-confirm" placeholder="Repeat password" required></div>
+      <button type="submit" class="btn primary" id="register-btn">Create account</button>
+    </form>
+  </div>
+
+  <script src="/static/auth.js"></script>
+</body>
+</html>

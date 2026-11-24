@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PayPredict AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
+</head>
+<body>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></symbol>
+      <symbol id="i-users" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+      <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></symbol>
+      <symbol id="i-cpu" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/></symbol>
+      <symbol id="i-chart" viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4 12 14.01l-3-3"/></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+      <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></symbol>
+      <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M20 12V8H6a2 2 0 0 1 0-4h12v4"/><path d="M4 6v12a2 2 0 0 0 2 2h14v-4"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/></symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18"/></symbol>
+    </defs>
+  </svg>
+
+  <div class="overlay" id="overlay"></div>
+
+  <div class="app">
+
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-logo"><svg class="icon"><use href="#i-cpu"/></svg></div>
+        <div>
+          <div class="brand-name">PayPredict AI</div>
+          <div class="brand-sub">Invoice Intelligence</div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a href="#" class="nav-link active" data-page="dashboard"><svg class="icon"><use href="#i-grid"/></svg>Dashboard</a>
+        <a href="#" class="nav-link" data-page="customers"><svg class="icon"><use href="#i-users"/></svg>Customers</a>
+        <a href="#" class="nav-link" data-page="invoices"><svg class="icon"><use href="#i-file"/></svg>Invoices</a>
+        <a href="#" class="nav-link" data-page="predictions"><svg class="icon"><use href="#i-cpu"/></svg>AI Predictions</a>
+        <a href="#" class="nav-link" data-page="reports"><svg class="icon"><use href="#i-chart"/></svg>Reports</a>
+      </nav>
+
+      <div class="user-box">
+        <div class="avatar" id="user-avatar">U</div>
+        <div class="user-info"><strong id="user-name">User</strong><span>Signed in</span></div>
+        <button class="logout" id="logout-btn">Logout</button>
+      </div>
+    </aside>
+
+    <div class="main">
+
+      <header class="topbar">
+        <button class="menu-btn" id="menu-btn" aria-label="Open menu"><svg class="icon"><use href="#i-menu"/></svg></button>
+        <h1 id="page-title">Dashboard</h1>
+        <div class="topbar-date" id="today-label"></div>
+      </header>
+
+      <main class="content">
+
+        <section id="dashboard" class="page active">
+          <div class="stats">
+            <div class="stat">
+              <div class="stat-icon blue"><svg class="icon"><use href="#i-file"/></svg></div>
+              <div><p>Total Invoices</p><h3 id="stat-total">0</h3></div>
+            </div>
+            <div class="stat">
+              <div class="stat-icon green"><svg class="icon"><use href="#i-check"/></svg></div>
+              <div><p>Paid</p><h3 id="stat-paid">0</h3></div>
+            </div>
+            <div class="stat">
+              <div class="stat-icon amber"><svg class="icon"><use href="#i-clock"/></svg></div>
+              <div><p>Pending</p><h3 id="stat-pending">0</h3></div>
+            </div>
+            <div class="stat">
+              <div class="stat-icon red"><svg class="icon"><use href="#i-alert"/></svg></div>
+              <div><p>Overdue</p><h3 id="stat-overdue">0</h3></div>
+            </div>
+            <div class="stat">
+              <div class="stat-icon violet"><svg class="icon"><use href="#i-wallet"/></svg></div>
+              <div><p>Paid Revenue</p><h3 id="stat-revenue">₹0</h3></div>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="panel">
+              <div class="panel-head"><h3>Payment Risk Overview</h3><span class="muted">Latest prediction per invoice</span></div>
+              <div class="chart-box">
+                <canvas id="riskChart"></canvas>
+                <p class="empty-state hidden">No predictions yet. Go to AI Predictions and run one.</p>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><h3>Recent Invoices</h3></div>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Invoice</th><th>Customer</th><th>Amount</th><th>Status</th></tr></thead>
+                  <tbody id="recent-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="customers" class="page">
+          <div class="panel">
+            <div class="panel-head"><h3>Add Customer</h3></div>
+            <div class="form-grid">
+              <div class="field"><label for="c-name">Customer name</label><input type="text" id="c-name" placeholder="e.g. khushi Sharma"></div>
+              <div class="field"><label for="c-email">Email</label><input type="email" id="c-email" placeholder="name@company.com"></div>
+              <div class="field"><label for="c-phone">Phone</label><input type="text" id="c-phone" placeholder="10 digit number" maxlength="15"></div>
+              <div class="field field-btn"><button class="btn primary" id="add-customer-btn">Add Customer</button></div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <h3>All Customers</h3>
+              <input type="search" id="customer-search" class="search" placeholder="Search name or email...">
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Invoices</th><th></th></tr></thead>
+                <tbody id="customers-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section id="invoices" class="page">
+          <div class="panel">
+            <div class="panel-head"><h3>Create Invoice</h3></div>
+            <div class="form-grid">
+              <div class="field"><label for="i-number">Invoice number</label><input type="text" id="i-number" placeholder="INV-001"></div>
+              <div class="field"><label for="i-customer">Customer</label><select id="i-customer"></select></div>
+              <div class="field"><label for="i-amount">Amount (₹)</label><input type="number" id="i-amount" placeholder="25000" min="1"></div>
+              <div class="field"><label for="i-issue">Issue date</label><input type="date" id="i-issue"></div>
+              <div class="field"><label for="i-due">Due date</label><input type="date" id="i-due"></div>
+              <div class="field field-btn"><button class="btn primary" id="add-invoice-btn">Create Invoice</button></div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <h3>All Invoices</h3>
+              <div class="filters">
+                <input type="search" id="invoice-search" class="search" placeholder="Search invoice or customer...">
+                <select id="invoice-filter" class="filter">
+                  <option value="All">All status</option>
+                  <option value="Paid">Paid</option>
+                  <option value="Pending">Pending</option>
+                  <option value="Overdue">Overdue</option>
+                </select>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Invoice</th><th>Customer</th><th>Amount</th><th>Issued</th><th>Due</th><th>Status</th><th>Actions</th></tr></thead>
+                <tbody id="invoices-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section id="predictions" class="page">
+          <div class="panel">
+            <div class="panel-head"><h3>Predict Payment Delay</h3><span class="muted">Only unpaid invoices can be predicted</span></div>
+            <div class="form-grid two">
+              <div class="field"><label for="p-invoice">Select invoice</label><select id="p-invoice"></select></div>
+              <div class="field field-btn"><button class="btn primary" id="predict-btn">Run Prediction</button></div>
+            </div>
+            <div id="prediction-result" class="hidden"></div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head"><h3>Predictions (this session)</h3></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Invoice</th><th>Customer</th><th>Late probability</th><th>Risk level</th></tr></thead>
+                <tbody id="history-body"></tbody>
+              </table>
+            </div>
+          </div>
+
+
+        </section>
+
+
+        <section id="reports" class="page">
+          <div class="stats stats-3">
+            <div class="stat">
+              <div class="stat-icon red"><svg class="icon"><use href="#i-alert"/></svg></div>
+              <div><p>High-Risk Invoices</p><h3 id="r-high">0</h3></div>
+            </div>
+            <div class="stat">
+              <div class="stat-icon amber"><svg class="icon"><use href="#i-wallet"/></svg></div>
+              <div><p>Overdue Amount</p><h3 id="r-overdue">₹0</h3></div>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="panel">
+              <div class="panel-head"><h3>Paid vs Pending vs Overdue</h3></div>
+              <div class="chart-box"><canvas id="statusChart"></canvas><p class="empty-state hidden">No invoices yet.</p></div>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><h3>Payment Trend (monthly paid amount)</h3></div>
+              <div class="chart-box"><canvas id="trendChart"></canvas><p class="empty-state hidden">No paid invoices yet.</p></div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head"><h3>Customer Payment History</h3><span class="muted">On-time vs late (paid invoices)</span></div>
+            <div class="chart-box tall"><canvas id="historyChart"></canvas><p class="empty-state hidden">No paid invoices yet.</p></div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script src="/static/script.js"></script>
+</body>
+</html>
